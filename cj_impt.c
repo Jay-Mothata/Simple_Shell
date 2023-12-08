@@ -26,6 +26,7 @@ char *reads_from_user(void)
 	if (read == -1)
 	{
 		cj_print("\n"); /* Handles EOF condition */
+		free(line); /* Free memory in case of error */
 		exit(EXIT_SUCCESS);
 	}
 
@@ -55,7 +56,7 @@ void executes_cmd(char *cmd)
 
 		execve(cmd, args, NULL);
 		perror("cj_shell"); /* Handles execution errors */
-		_exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
