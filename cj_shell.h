@@ -1,7 +1,7 @@
 #ifndef CJ_SHELL_H
 #define CJ_SHELL_H
 
-/* Libraries */
+/* Standard Libraries */
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -10,10 +10,12 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+/* External enviroment */
+extern char **environ;
+
 /* Function prototypes */
-void cj_print(const char *output);
-void dispwait_prompt(void);
-char *reads_from_user(void);
-void executes_cmd(char *cmd);
+char **tokenize(char *str, const char *delim);
+void free_cmds(char **cmds);
+void exec_cmds(char *lineptr, char *argv[]);
 
 #endif /* CJ_SHELL_H */
