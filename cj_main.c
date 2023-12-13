@@ -12,20 +12,20 @@ void handle_user_input(char **lineptr, size_t *len)
 	size_t cmd_count = 0;
 	
 	if (isatty(STDIN_FILENO))
-		printf("$ ");
+		cj_print("$ ");
 	fflush(stdout);
-	n_read = getline(&lineptr, &n, stdin);
+	n_read = getline(&lineptr, len, stdin);
 	++cmd_count;
 
 	if (n_read == -1)
 	{
 		free(lineptr);
-		lineptr = NULL;
+		*lineptr = NULL;
 		if (isatty(STDIN_FILENO))
-			printf("\n");
+			cj_print("\n");
 		exit(0);
 	}
-	lineptr[n_read - 1] = '\0';
+	(*lineptr)[n_read - 1] = '\0';
 }
 
 /**
@@ -105,8 +105,6 @@ int main(int argc, char *argv[])
 		free_cmds(commands);
 		commands = NULL;
 		lineptr = NULL;
-	}
-	return (0);
 	}
 	return (0);
 }
