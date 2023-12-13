@@ -18,5 +18,6 @@ char **tokenize(char *str, const char *delim);
 void free_cmds(char **cmds);
 void exec_cmds(char *lineptr, char *argv[]);
 void cj_print(const char *message);
+void cj_exit(void);
 
 #endif /* CJ_SHELL_H */
