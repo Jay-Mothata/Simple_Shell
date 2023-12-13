@@ -18,6 +18,9 @@ char **tokenize(char *str, const char *delim);
 void free_cmds(char **cmds);
 void exec_cmds(char *lineptr, char *argv[]);
 void cj_print(const char *message);
-void cj_exit(void);
+void get_path(char **cmd);
+void handle_user_input(char **lineptr, size_t *len);
+void process_command(char *lineptr);
+/* void cj_exit(void); */
 
 #endif /* CJ_SHELL_H */
