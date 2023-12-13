@@ -1,6 +1,58 @@
 #include "cj_shell.h"
 
 /**
+ * handle_user_input - Prompts the user for input and reads the command line.
+ * @lineptr: Pointer to the input string.
+ * @len: Length of the input string.
+ */
+
+void handle_user_input(char **lineptr, size_t *len)
+{
+	ssize_t n_read;
+
+	if (isatty(STDIN_FILENO))
+		printf("$ ");
+	fflush(stdout);
+	n_read = getline(lineptr, len, stdin);
+
+	if (n_read == -1)
+	{
+		free(*lineptr);
+		*lineptr = NULL;
+		if (isatty(STDIN_FILENO))
+			printf("\n");
+		exit(0);
+	}
+	(*lineptr)[n_read - 1] = '\0';
+}
+
+/**
+ * process_command - Tokenizes and executes the user-entered command.
+ * @lineptr: Pointer to the input string.
+ */
+
+void process_command(char *lineptr)
+{
+	char **commands = tokenize(lineptr, " ");
+
+	if (commands != NULL && commands[0] != NULL)
+	{
+		if (strcmp(commands[0], "exit") == 0)
+		{
+			free_cmds(commands);
+			cj_exit();
+		}
+
+		exec_cmds(lineptr, commands);
+		free_cmds(commands);
+	}
+	else
+	{
+		cj_print("Invalid input.\n");
+	}
+}
+
+/**
  * main - Entry point for the simple shell
  * @argc: Number of command-line arguements
  * @argv: Array of command-line arguements
