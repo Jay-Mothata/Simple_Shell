@@ -9,19 +9,21 @@
 void handle_user_input(char **lineptr, size_t *len)
 {
 	ssize_t n_read;
+	size_t cmd_count = 0;
 
 	if (isatty(STDIN_FILENO))
-		printf("$ ");
+		cj_print("$ ");
 	fflush(stdout);
 	n_read = getline(lineptr, len, stdin);
+	++cmd_count;
 
 	if (n_read == -1)
 	{
 		free(*lineptr);
 		*lineptr = NULL;
 		if (isatty(STDIN_FILENO))
-			printf("\n");
-		exit(0);
+			cj_print("\n");
+		exit(EXIT_SUCCESS);
 	}
 	(*lineptr)[n_read - 1] = '\0';
 }
@@ -33,15 +35,19 @@ void handle_user_input(char **lineptr, size_t *len)
 
 void process_command(char *lineptr)
 {
-	char **commands = tokenize(lineptr, " ");
+	char **commands;
+
+	commands = tokenize(lineptr, " ");
 
 	if (commands != NULL && commands[0] != NULL)
 	{
+		get_path(&commands[0]);
+
 		if (strcmp(commands[0], "exit") == 0)
 		{
 			free_cmds(commands);
 			free(lineptr);
-			cj_exit();
+			exit(0);
 		}
 		else
 		{
@@ -65,40 +71,20 @@ void process_command(char *lineptr)
 
 int main(int argc, char *argv[])
 {
-	char *lineptr = NULL, **commands = NULL;
-	size_t n = 0, cmd_count = 0;
-	ssize_t n_read;
+	char *lineptr = NULL;
+	size_t n = 0;
 
 	(void)argc, (void)argv;
+
 	while (true)
 	{
-		if (isatty(STDIN_FILENO))
-			printf("$ ");
-		fflush(stdout);
-		n_read = getline(&lineptr, &n, stdin);
-		++cmd_count;
-
-		if (n_read == -1)
-		{
-			free(lineptr);
-			lineptr = NULL;
-			if (isatty(STDIN_FILENO))
-				printf("\n");
-			exit(0);
-		}
-		lineptr[n_read - 1] = '\0';
+		handle_user_input(&lineptr, &n);
 
 		if (*lineptr == '\0')
 			continue;
 
-		commands = tokenize(lineptr, " ");
-		if (commands == NULL)
-			continue;
-
-		exec_cmds(lineptr, commands);
+		process_command(lineptr);
 		free(lineptr);
-		free_cmds(commands);
-		commands = NULL;
 		lineptr = NULL;
 	}
 	return (0);
