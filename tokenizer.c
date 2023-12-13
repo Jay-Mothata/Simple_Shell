@@ -2,8 +2,8 @@
 
 /**
  * tokenize - Splits a string into an array of tokens based on a delimeter
- * @str: THe input string to be tokenized
- * @delim: THe delimeter used to split the string
+ * @str: The input string to be tokenized
+ * @delim: The delimeter used to split the string
  *
  * Return: An array of strings 9tokens) or NULL if input is invalid
  */
