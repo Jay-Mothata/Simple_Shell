@@ -12,7 +12,7 @@ void handle_user_input(char **lineptr, size_t *len)
 	size_t cmd_count = 0;
 
 	if (isatty(STDIN_FILENO))
-		cj_print("$ ");
+		cj_print("CJ_$ ");
 	fflush(stdout);
 	n_read = getline(lineptr, len, stdin);
 	++cmd_count;
