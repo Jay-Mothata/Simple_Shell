@@ -21,6 +21,5 @@ void cj_print(const char *message);
 void get_path(char **cmd);
 void handle_user_input(char **lineptr, size_t *len);
 void process_command(char *lineptr);
-/* void cj_exit(void); */
 
 #endif /* CJ_SHELL_H */
