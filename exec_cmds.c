@@ -11,6 +11,13 @@ void exec_cmds(char *lineptr, char *argv[])
 	pid_t child;
 	int status;
 
+	if (strcmp(argv[0], "exit") == 0)
+	{
+		free(lineptr);
+		free_cmds(argv);
+		cj_exit();
+	}
+
 	if (access(argv[0], X_OK) == -1)
 	{
 		fprintf(stderr, "%s: %s: not found\n", argv[0], lineptr);
