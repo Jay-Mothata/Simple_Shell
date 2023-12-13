@@ -40,10 +40,14 @@ void process_command(char *lineptr)
 		if (strcmp(commands[0], "exit") == 0)
 		{
 			free_cmds(commands);
+			free(lineptr);
 			cj_exit();
 		}
+		else
+		{
+			exec_cmds(lineptr, commands);
+		}
 
-		exec_cmds(lineptr, commands);
 		free_cmds(commands);
 	}
 	else
