@@ -11,14 +11,10 @@ void exec_cmds(char *lineptr, char *argv[])
 	pid_t child;
 	int status;
 
-	if (strcmp(argv[0], "exit") == 0)
-	{
-		free(lineptr);
-		free_cmds(argv);
-		cj_exit();
-	}
+	/*Get the full path of the command using get_path */
+	get_path(&argv[0]);
 
-	if (access(argv[0], X_OK) == -1)
+	if (access(argv[0], X_OK | R_OK) == -1)
 	{
 		fprintf(stderr, "%s: %s: not found\n", argv[0], lineptr);
 		return;
@@ -32,7 +28,10 @@ void exec_cmds(char *lineptr, char *argv[])
 	if (child == 0)
 	{
 		if (execve(argv[0], argv, environ) == -1)
+		{
 			perror("execve");
+			_exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
