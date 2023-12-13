@@ -41,7 +41,7 @@ void process_command(char *lineptr)
 
 	if (commands != NULL && commands[0] != NULL)
 	{
-		get_path(&commands[0]);
+		/* get_path(&commands[0]); */
 
 		if (strcmp(commands[0], "exit") == 0)
 		{
