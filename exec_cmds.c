@@ -2,7 +2,7 @@
 
 /**
  * exec_cmds - Executes a command specified by argv
- * @lineptr: THe original input line containing the command
+ * @lineptr: The original input line containing the command
  * @argv: Array of strings representing the command and its arguements
  */
 
