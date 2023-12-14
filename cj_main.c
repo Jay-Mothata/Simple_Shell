@@ -12,7 +12,7 @@ void handle_user_input(char **lineptr, size_t *len)
 	size_t cmd_count = 0;
 
 	if (isatty(STDIN_FILENO))
-		cj_print("CJ_$ ");
+		cj_print("$ ");
 	fflush(stdout);
 	n_read = getline(lineptr, len, stdin);
 	++cmd_count;
@@ -25,7 +25,7 @@ void handle_user_input(char **lineptr, size_t *len)
 			cj_print("\n");
 		exit(EXIT_SUCCESS);
 	}
-	(*lineptr)[n_read - 1] = '\0';
+	(*lineptr)[n_read - 1] = 0;
 }
 
 /**
@@ -35,9 +35,7 @@ void handle_user_input(char **lineptr, size_t *len)
 
 void process_command(char *lineptr)
 {
-	char **commands;
-
-	commands = tokenize(lineptr, " ");
+	char **commands = tokenize(lineptr, " ");
 
 	if (commands != NULL && commands[0] != NULL)
 	{
@@ -76,7 +74,6 @@ int main(int argc, char *argv[])
 	ssize_t n_read;
 
 	(void)argc, (void)argv;
-
 	while (true)
 	{
 		if (isatty(STDIN_FILENO))
@@ -108,5 +105,6 @@ int main(int argc, char *argv[])
 		commands = NULL;
 		lineptr = NULL;
 	}
+
 	return (0);
 }
